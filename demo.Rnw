@@ -1,0 +1,84 @@
+% Created 2013-11-04 Mon 17:44
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{soul}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{latexsym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\providecommand{\alert}[1]{\textbf{#1}}
+
+\title{Demo of Reproducible Research}
+\author{Shripad Sinari\thanks{shripad.sinari@gmail.com}}
+\date{2013-11-04 Mon}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={What does this description tag do?},
+  pdfcreator={Emacs Org-mode version 7.9.4}}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+\label{sec-1}
+
+  This is demo of a reproducible analysis using tools like orgmode and knitr.
+\section{Some R functionality}
+\label{sec-2}
+
+<<load-lib, eval = TRUE, echo = FALSE>>=
+library(stats)
+library(xtable)
+library(ggplot2)
+@
+
+<<lin-regress, eval = TRUE, echo = FALSE, results = tex>>=
+fit <- lm(dist ~ speed, data = cars)
+print(xtable(summary(fit), caption = "Summary of the linear model fit for the cars data"))
+@
+
+The value of the coefficient of speed in the fit above is
+\Sexpr{signif(coef(fit)["speed"], digits = 3)}.
+
+The above line gives a demonstration of the use of reproducible research tools
+in helping ease the tasks of rerunning the code and embedding the new results in
+your document.
+
+The following code will be printed in the document along with the
+figure that it produces. There are multiple ways to ask the tools
+to include figures. they can be both an inline image or just a link to the figure.
+
+<<fig:plot, eval = TRUE, echo =TRUE, fig = TRUE, eps = FALSE, out.width = \textwidth, dev ="pdf">>=
+p <- ggplot(aes(speed, dist), data = cars) + geom_point()
+p <- p + geom_abline(intercept = coef(fit)[1], slope = coef(fit)[2])
+p
+@
+
+Here you can see that even if the plot is generated in the code above, it can
+be moved around and placed where ever desired.
+
+\section{Conclusion}
+\label{sec-3}
+
+  Reproducible Research is easy to do and saves you time and effort. Most
+  importantly, it allows faithful reproduction of your analysis and increases
+  its reliability.
+\section{Session Information for reproducibility}
+\label{sec-4}
+
+<<ses-info, echo = FALSE, eval=TRUE>>=
+sessionInfo()
+@
+
+
+\end{document}
