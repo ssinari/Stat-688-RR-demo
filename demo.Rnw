@@ -27,6 +27,7 @@
 
 \begin{document}
 
+
 \maketitle
 
 \section{Introduction}
@@ -42,7 +43,7 @@ library(xtable)
 library(ggplot2)
 @
 
-<<lin-regress, eval = TRUE, echo = FALSE, results = tex>>=
+<<lin-regress, eval = TRUE, echo = FALSE, results = 'asis'>>=
 fit <- lm(dist ~ speed, data = cars)
 print(xtable(summary(fit), caption = "Summary of the linear model fit for the cars data"))
 @
@@ -58,9 +59,9 @@ The following code will be printed in the document along with the
 figure that it produces. There are multiple ways to ask the tools
 to include figures. they can be both an inline image or just a link to the figure.
 
-<<fig:plot, eval = TRUE, echo =TRUE, fig = TRUE, eps = FALSE, out.width = \textwidth, dev ="pdf">>=
+<<plot, eval = TRUE, echo =TRUE>>=
 p <- ggplot(aes(speed, dist), data = cars) + geom_point()
-p <- p + geom_abline(intercept = coef(fit)[1], slope = coef(fit)[2])
+p <- p + geom_smooth(method = "lm")
 p
 @
 
